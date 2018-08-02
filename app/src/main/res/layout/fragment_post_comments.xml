@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.sqli.mvvmapp.mvvm.comments.viewmodel.PostCommentsViewModel" />
+
+        <variable
+            name="title"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        style="@style/AppTheme.Screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/toolbar"
+            bind:title="@{title}" />
+
+        <LinearLayout
+            style="@style/AppTheme.CardListTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:gravity="center"
+                style="@style/AppTheme.CardLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvPostTitle"
+                    android:layout_gravity="center"
+                    style="@style/AppTheme.CardView.Text.Bold"
+                    android:padding="@dimen/card_padding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.post.title}" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_margin="@dimen/card_padding"
+                android:id="@+id/tvPostBody"
+                style="@style/AppTheme.CardView.Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.post.body}" />
+        </LinearLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swrlCommentsRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            bind:onRefreshListener="@{() -> viewModel.onRefresh()}"
+            bind:refreshing="@{viewModel.isLoading}">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvCommentsList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                bind:itemLayout="@{@layout/item_comment}"
+                bind:items="@{viewModel.items}" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+
+    </LinearLayout>
+
+</layout>

@@ -1,3 +1,22 @@
 <resources>
-    <string name="app_name">Gallery</string>
+    <string name="app_name">MVVMApp</string>
+    <string name="list_users_title">Users</string>
+    <string name="user_menu_item_post">Post</string>
+    <string name="user_menu_item_album">Album</string>
+    <string name="user_menu_item_todo">To do</string>
+    <string name="exception_internet">It seems that you do not have internet</string>
+    <string name="photo_grid">Photos</string>
+
+    <string name="name">Name:</string>
+    <string name="company">Company:</string>
+    <string name="email">Email:</string>
+    <string name="post_title"><![CDATA[<b>Post title</b>]]></string>
+    <string name="post">Post</string>
+    <string name="content"><![CDATA[<b>Content: </b>]]></string>
+    <string name="album_title"><![CDATA[<b>Album title:</b>]]></string>
+    <string name="album">Album</string>
+    <string name="todo">To-do item</string>
+    <string name="item"><![CDATA[<b>Item: </b>]]></string>
+
+    <string name="comments">Comments</string>
 </resources>

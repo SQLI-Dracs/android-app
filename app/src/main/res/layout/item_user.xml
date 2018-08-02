@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.sqli.mvvmapp.mvvm.user.model.entity.User" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        style="@style/AppTheme.CardView"
+        android:layout_width="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/AppTheme.CardLayout">
+
+                <TextView
+                    android:id="@+id/tvUserName"
+                    style="@style/AppTheme.CardView.Text.Bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{data.username}" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="@dimen/card_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.CardView.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    style="@style/AppTheme.CardView.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:text="@{data.name}" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="@dimen/card_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.CardView.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/company" />
+
+                <TextView
+                    android:id="@+id/tvCompanyName"
+                    style="@style/AppTheme.CardView.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@{data.company.name}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="@dimen/card_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.CardView.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email" />
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    style="@style/AppTheme.CardView.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@{data.email}" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</layout>

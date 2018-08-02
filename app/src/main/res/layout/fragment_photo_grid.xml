@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="clickHandler"
+            type="com.jaumard.recyclerviewbinding.BindableRecyclerAdapter.OnClickListener" />
+
+        <variable
+            name="viewModel"
+            type="com.sqli.mvvmapp.mvvm.photo.viewmodel.PhotoGridViewModel" />
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="refreshListener"
+            type="android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener" />
+
+        <variable
+            name="imageUtil"
+            type="com.sqli.mvvmapp.common.utils.ImageUtils"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/AppTheme.Screen"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/toolbar"
+            bind:title="@{title}" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swrlAlbumRefresh"
+            bind:onRefreshListener="@{() -> viewModel.onRefresh()}"
+            bind:refreshing="@{viewModel.isLoading}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvUserList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:imageUtil="@{imageUtil}"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="@integer/num_photos_per_row"
+                bind:clickHandler="@{clickHandler}"
+                bind:itemLayout="@{@layout/item_photo_grid}"
+                bind:items="@{viewModel.items}" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="clickHandler"
+            type="com.jaumard.recyclerviewbinding.BindableRecyclerAdapter.OnClickListener" />
+
+        <variable
+            name="viewModel"
+            type="com.sqli.mvvmapp.mvvm.album.viewmodel.UserAlbumsViewModel" />
+
+        <variable
+            name="refreshListener"
+            type="android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/AppTheme.Screen"
+        android:orientation="vertical">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swrlAlbumRefresh"
+            bind:onRefreshListener="@{() -> viewModel.onRefresh()}"
+            bind:refreshing="@{viewModel.isLoading}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvUserList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                bind:clickHandler="@{clickHandler}"
+                bind:itemLayout="@{@layout/item_album}"
+                bind:items="@{viewModel.items}" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+</layout>
