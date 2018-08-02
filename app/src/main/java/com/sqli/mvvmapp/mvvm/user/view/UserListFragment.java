@@ -37,7 +37,6 @@ public class UserListFragment extends Fragment
     @Inject
     UserListViewModel userListViewModel;
 
-    @Inject
     Lazy<Navigator> navigator;
 
 
@@ -47,6 +46,8 @@ public class UserListFragment extends Fragment
 
     @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        navigator = () -> new Navigator(this::getActivity);
 
         return inflater.inflate(R.layout.fragment_user_list, container, false);
 

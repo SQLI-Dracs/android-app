@@ -29,14 +29,14 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public Observable<List<User>> getUsers() {
+    public List<User> getUsers() {
 
         Single<List<User>> dbSingle = userDataFactory.get().createDBDataSource().userList();
         Single<List<User>> nwSingle = userDataFactory.get().createNetworkDataSource().userList()
                 .flattenAsObservable(users -> users)
                 .flatMap(this::saveData).toList();
 
-        return Observable.mergeDelayError(dbSingle.toObservable(), nwSingle.toObservable());
+        return Observable.mergeDelayError(dbSingle.toObservable(), nwSingle.toObservable()).blockingLast();
 
     }
 

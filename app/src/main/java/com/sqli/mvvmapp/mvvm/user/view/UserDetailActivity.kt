@@ -59,17 +59,19 @@ class UserDetailActivity : AppCompatActivity(), BottomNavigationView.OnNavigatio
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_user_detail_item_post ->
-                vpgUserDetail.setCurrentItem(UserDetailViewPagerAdapter.FRAGMENT_POST, true)
 
-            R.id.menu_user_detail_item_album ->
-                vpgUserDetail.setCurrentItem(UserDetailViewPagerAdapter.FRAGMENT_ALBUM, true)
-
-            R.id.men_user_detail_item_todo ->
-                vpgUserDetail.setCurrentItem(UserDetailViewPagerAdapter.FRAGMENT_TODO, true)
-
+        if (item.itemId == R.id.menu_user_detail_item_post) {
+            vpgUserDetail.setCurrentItem(UserDetailViewPagerAdapter.FRAGMENT_POST, true)
         }
+
+        if (item.itemId == R.id.menu_user_detail_item_album) {
+            vpgUserDetail.setCurrentItem(UserDetailViewPagerAdapter.FRAGMENT_ALBUM, true)
+        }
+
+        if (item.itemId == R.id.men_user_detail_item_todo) {
+            vpgUserDetail.setCurrentItem(UserDetailViewPagerAdapter.FRAGMENT_TODO, true)
+        }
+
         return true
     }
 
@@ -82,20 +84,24 @@ class UserDetailActivity : AppCompatActivity(), BottomNavigationView.OnNavigatio
     }
 
     override fun onPageSelected(position: Int) {
-        when (position) {
-            UserDetailViewPagerAdapter.FRAGMENT_POST -> {
-                bnvUserMenu.selectedItemId = R.id.menu_user_detail_item_post
-                binding.title = getString(R.string.user_menu_item_post)
-            }
-            UserDetailViewPagerAdapter.FRAGMENT_ALBUM -> {
-                bnvUserMenu.selectedItemId = R.id.menu_user_detail_item_album
-                binding.title = getString(R.string.user_menu_item_album)
-            }
-            UserDetailViewPagerAdapter.FRAGMENT_TODO -> {
-                bnvUserMenu.selectedItemId = R.id.men_user_detail_item_todo
-                binding.title = getString(R.string.user_menu_item_todo)
-            }
 
+        if (position == UserDetailViewPagerAdapter.FRAGMENT_POST) {
+            bnvUserMenu.selectedItemId = R.id.menu_user_detail_item_post
+            binding.title = getString(R.string.user_menu_item_post)
+            return
         }
+
+        if (position == UserDetailViewPagerAdapter.FRAGMENT_ALBUM) {
+            bnvUserMenu.selectedItemId = R.id.menu_user_detail_item_album
+            binding.title = getString(R.string.user_menu_item_album)
+            return
+        }
+
+        if(position ==  UserDetailViewPagerAdapter.FRAGMENT_TODO){
+            bnvUserMenu.selectedItemId = R.id.men_user_detail_item_todo
+            binding.title = getString(R.string.user_menu_item_todo)
+            return
+        }
+
     }
 }

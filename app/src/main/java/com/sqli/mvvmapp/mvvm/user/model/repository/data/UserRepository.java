@@ -8,6 +8,5 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public interface UserRepository {
-
-    Observable<List<User>> getUsers();
+    List<User> getUsers();
 }
