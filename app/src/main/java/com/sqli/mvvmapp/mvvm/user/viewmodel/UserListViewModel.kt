@@ -28,8 +28,10 @@ class UserListViewModel
     fun retrieveUsers() {
         AndroidSchedulers.mainThread().start()
 
+        isLoading.set(true)
         Thread(Runnable {
             items.set(userRepository.get().users)
+            isLoading.set(false)
         }).start()
     }
 
