@@ -6,11 +6,10 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.android.databinding.library.baseAdapters.BR
 import com.jaumard.recyclerviewbinding.BindableRecyclerAdapter
 import com.sqli.mvvmapp.MVVMApplication
 import com.sqli.mvvmapp.R
-import com.sqli.mvvmapp.databinding.FragmentUserAlbumsBinding
+import com.sqli.mvvmapp.common.Navigator
 import com.sqli.mvvmapp.databinding.FragmentUserTodosBinding
 import com.sqli.mvvmapp.di.components.DaggerFragmentComponent
 import com.sqli.mvvmapp.di.components.FragmentComponent
@@ -19,8 +18,11 @@ import com.sqli.mvvmapp.mvvm.todo.model.entity.Todo
 import com.sqli.mvvmapp.mvvm.todo.viewmodel.UserTodosViewModel
 import com.sqli.mvvmapp.mvvm.user.view.UserDetailActivity
 import com.sqli.mvvmapp.mvvm.view.fragment.UserAlbumsFragment
-import javax.inject.Inject
 import dagger.Lazy
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class UserTodosFragment : Fragment(), BindableRecyclerAdapter.OnClickListener<Todo> {
     companion object {
@@ -39,8 +41,11 @@ class UserTodosFragment : Fragment(), BindableRecyclerAdapter.OnClickListener<To
         }
 
     }
+
     @Inject
     lateinit var userTodosViewModel: UserTodosViewModel
+
+    private var isLoading: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_user_todos, container, false)
@@ -61,9 +66,23 @@ class UserTodosFragment : Fragment(), BindableRecyclerAdapter.OnClickListener<To
 
         fragmentUserTodosBinding?.clickHandler = this
         fragmentUserTodosBinding?.viewModel = userTodosViewModel
+        userTodosViewModel.userTodosFragment = this
 
-        userTodosViewModel.userId = arguments?.getLong(UserAlbumsFragment.USER_ID) ?: -1
-        userTodosViewModel.start()
+        getData()
+    }
+
+    public open fun getData() {
+        userTodosViewModel.todoRepository.get().getTodo(arguments?.getLong(UserAlbumsFragment.USER_ID)
+                ?: -1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread(), true)
+                .doOnSubscribe { isLoading = true; userTodosViewModel.isLoading.set(true) }
+                .doAfterTerminate { isLoading = false; userTodosViewModel.isLoading.set(true) }
+                .subscribeBy(onNext = {
+                    userTodosViewModel.items.set(it)
+                }, onError = {
+                    Navigator(Lazy { activity }).showError(it)
+                })
     }
 
     override fun onStop() {

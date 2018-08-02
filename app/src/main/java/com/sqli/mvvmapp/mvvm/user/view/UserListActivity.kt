@@ -15,17 +15,19 @@ class UserListActivity : AppCompatActivity() {
 
     private lateinit var component: NavigatorComponent
 
-    @Inject
-    lateinit var navigator: Lazy<Navigator>
+    lateinit var navigator: Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        navigator = Navigator(Lazy { this })
+
         component = DaggerNavigatorComponent.builder().navigatorModule(NavigatorModule(this)).build()
         component.inject(this)
-        navigator.get().showUserListFragment(this, R.id.flRootLayout)
+        navigator.showUserListFragment(this, R.id.flRootLayout)
     }
 
 
-     fun getNavigatorComponent(): NavigatorComponent = component
+    fun getNavigatorComponent(): NavigatorComponent = component
 }

@@ -5,6 +5,8 @@ import com.sqli.mvvmapp.base.BaseListViewModel
 import com.sqli.mvvmapp.common.Navigator
 import com.sqli.mvvmapp.mvvm.todo.model.entity.Todo
 import com.sqli.mvvmapp.mvvm.todo.model.repository.data.TodoRepository
+import com.sqli.mvvmapp.mvvm.todo.view.UserTodosFragment
+import com.sqli.mvvmapp.mvvm.user.view.UserDetailActivity
 import dagger.Lazy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.annotations.Nullable
@@ -18,29 +20,15 @@ class UserTodosViewModel @Inject constructor(val todoRepository: Lazy<TodoReposi
     var userId: Long = -1
     val isLoading = ObservableField(false)
 
+    lateinit var userTodosFragment: UserTodosFragment
 
     fun start() {
-        retrieveTodos(userId)
+        userTodosFragment.getData()
     }
 
-    fun retrieveTodos(userId: Long) {
-
-            todoRepository.get().getTodo(userId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread(), true)
-                    .doOnSubscribe { isLoading.set(true) }
-                    .doAfterTerminate { isLoading.set(false) }
-                    .subscribeBy(onNext = {
-                        items.set(it)
-                    }, onError = {
-                        navigator.get().showError(it)
-                    })
-                    .addTo(compositeDisposable)
-
-    }
 
     fun onRefresh() {
-        retrieveTodos(userId)
+        userTodosFragment.getData()
     }
 
     fun getIsLoading(): ObservableField<Boolean> {
